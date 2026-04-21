@@ -13,13 +13,13 @@ public interface InUsuari {
 
     String getAdreca();
 
-    String tipusClient();
+    String tipusUsuari();
 
     void setNumPrestecsNormals(int numPrestecsNormals);
 
     int getNumPrestecsNormals();
 
-    void setNumPrestecsLlargs(int numPrestecstLlargs);
+    void setNumPrestecsLlargs(int numPrestecsLlargs);
 
     int getNumPrestecsLlargs();
 

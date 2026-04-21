@@ -27,7 +27,7 @@ public class EstudiantTest {
 
     @Test
     public void testTipusClient() {
-        assertEquals("Estudiant", estudiant.tipusClient());
+        assertEquals("Estudiant", estudiant.tipusUsuari());
     }
 
     @Test

@@ -17,6 +17,10 @@ public interface InExemplar {
 
     boolean getAdmetPrestecLlarg();
 
+    void setDisponible(boolean disponible);
+
+    boolean isDisponible();
+
     @Override
     String toString();
 }
