@@ -8,6 +8,10 @@ public class PrestecLlarg extends Prestec implements Serializable {
         super(exemplar, usuari, dataCreacio);
     }
 
+    public PrestecLlarg(Exemplar exemplar, Usuari usuari){
+        super(exemplar, usuari);
+    }
+
     @Override
     public String tipusPrestec() {
         return "Llarg";

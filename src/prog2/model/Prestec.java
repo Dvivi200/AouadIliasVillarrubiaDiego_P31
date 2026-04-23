@@ -1,5 +1,7 @@
 package prog2.model;
 
+import prog2.vista.BiblioException;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,6 +18,15 @@ public abstract class Prestec implements InPrestec, Serializable {
         this.dataCreacio = dataCreacio;
         this.retornat = false;
     }
+
+    //Constructor per a la classe Dades
+    public Prestec(Exemplar exemplar, Usuari usuari){
+        this.exemplar = exemplar;
+        this.usuari = usuari;
+        this.dataCreacio = new Date();
+        this.retornat = false;
+    }
+
     @Override
     public void setExemplar(Exemplar exemplar) {
         this.exemplar = exemplar;
@@ -70,8 +81,9 @@ public abstract class Prestec implements InPrestec, Serializable {
     }
 
     @Override
-    public void retorna() {
-
+    public void retorna() throws BiblioException {
+        if(getRetornat()) throw new BiblioException("Aquest exemplar ja ha sigut retornat");
+        setRetornat(true);
     }
 
     @Override
@@ -79,7 +91,8 @@ public abstract class Prestec implements InPrestec, Serializable {
 
     @Override
     public boolean prestecEndarrerit() {
-        return false;
+        Date dataActual = new Date();
+        return dataActual.getTime() > dataLimitRetorn.getTime();
     }
 
     public String toString() {

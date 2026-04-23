@@ -8,6 +8,10 @@ public class PrestecNormal extends Prestec implements Serializable {
         super(exemplar, usuari, dataCreacio);
     }
 
+    public PrestecNormal(Exemplar exemplar, Usuari usuari){
+        super(exemplar, usuari);
+    }
+
     @Override
     public String tipusPrestec() {
         return "Normal";
