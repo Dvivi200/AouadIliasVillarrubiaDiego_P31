@@ -9,8 +9,6 @@ public abstract class Usuari implements InUsuari, Serializable {
     private String adreca;
     private int numPrestecsNormals;
     private int numPrestecsLlargs;
-    private int maxPrestecsNormals;
-    private int maxPrestecsLlargs;
     protected String tipusUsuari;
 
     public Usuari(String email, String nom, String adreca) {
@@ -19,8 +17,6 @@ public abstract class Usuari implements InUsuari, Serializable {
         this.adreca = adreca;
         this.numPrestecsNormals = 0;
         this.numPrestecsLlargs = 0;
-        this.maxPrestecsNormals = getMaxPrestecsNormals();
-        this.maxPrestecsLlargs = getMaxPrestecsLlargs();
     }
 
     @Override

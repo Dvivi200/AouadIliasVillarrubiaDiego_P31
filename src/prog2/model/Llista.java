@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import prog2.vista.BiblioException;
 
-public class Llista<T> implements Serializable {
+public class Llista<T> implements InLlista<T>, Serializable {
    protected ArrayList<T> llista;
 
    public Llista() {
@@ -17,27 +17,30 @@ public class Llista<T> implements Serializable {
     }
 
     public int getSize() {
-          // TO-BE-DONE
+       return llista.size();
     }
 
     public void afegir(T t) throws BiblioException {
-          // TO-BE-DONE
+       llista.add(t);
+    }
+
+    public void esborrar(T t) {
+       llista.remove(t);
     }
 
     public T getAt(int position) {
-          // TO-BE-DONE
+       return llista.get(position);
     }
 
     public void clear() {
-          // TO-BE-DONE
+       llista.clear();
     }
 
     public boolean isEmpty() {
-          // TO-BE-DONE
+       return llista.isEmpty();
     }
 
     public ArrayList<T> getArrayList() {
-        ArrayList<T> arrlist = new ArrayList<>(llista);
-        return arrlist;
+       return new ArrayList<>(llista);
     }
 }
