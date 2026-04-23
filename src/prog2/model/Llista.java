@@ -41,6 +41,6 @@ public class Llista<T> implements InLlista<T>, Serializable {
     }
 
     public ArrayList<T> getArrayList() {
-       return new ArrayList<>(llista);
+       return llista;
     }
 }

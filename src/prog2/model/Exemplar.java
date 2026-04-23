@@ -72,6 +72,8 @@ public class Exemplar implements InExemplar, Serializable {
 
     @Override
     public String toString() {
-        return "Id=" + id + ", Titol=" + titol + ", Autor=" + autor + ", Admet Prestec Llarg=" + admetPrestecLlarg + ", Disponible=" + disponible;
+        return "Id=" + id + ", Titol=" + titol +
+                ", Autor=" + autor + ", Admet Prestec Llarg=" + admetPrestecLlarg +
+                ", Disponible=" + disponible;
     }
 }
