@@ -6,16 +6,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 public abstract class Prestec implements InPrestec, Serializable {
-    private Exemplar exemplar;
-    private Usuari usuari;
+    protected Exemplar exemplar;
+    protected Usuari usuari;
     private Date dataCreacio;
     private Date dataLimitRetorn;
     private boolean retornat;
 
+    //Constructor per tests
     public Prestec(Exemplar exemplar, Usuari usuari, Date dataCreacio){
         this.exemplar = exemplar;
         this.usuari = usuari;
         this.dataCreacio = dataCreacio;
+        this.dataLimitRetorn = new Date(dataCreacio.getTime() + duradaPrestec());
         this.retornat = false;
     }
 
@@ -24,6 +26,7 @@ public abstract class Prestec implements InPrestec, Serializable {
         this.exemplar = exemplar;
         this.usuari = usuari;
         this.dataCreacio = new Date();
+        this.dataLimitRetorn = new Date(dataCreacio.getTime() + duradaPrestec());
         this.retornat = false;
     }
 
@@ -81,10 +84,7 @@ public abstract class Prestec implements InPrestec, Serializable {
     }
 
     @Override
-    public void retorna() throws BiblioException {
-        if(getRetornat()) throw new BiblioException("Aquest exemplar ja ha sigut retornat");
-        setRetornat(true);
-    }
+    public abstract void retorna() throws BiblioException;
 
     @Override
     public abstract long duradaPrestec();
@@ -92,7 +92,7 @@ public abstract class Prestec implements InPrestec, Serializable {
     @Override
     public boolean prestecEndarrerit() {
         Date dataActual = new Date();
-        return dataActual.getTime() > dataLimitRetorn.getTime();
+        return dataActual.after(dataLimitRetorn);
     }
 
     public String toString() {

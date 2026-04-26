@@ -1,5 +1,7 @@
 package prog2.model;
 
+import prog2.vista.BiblioException;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,5 +22,13 @@ public class PrestecLlarg extends Prestec implements Serializable {
     @Override
     public long duradaPrestec() {
         return 140000;
+    }
+
+    @Override
+    public void retorna() throws BiblioException {
+        if(getRetornat()) throw new BiblioException("Aquest exemplar ja ha sigut retornat");
+        setRetornat(true);
+        exemplar.setDisponible(true);
+        usuari.setNumPrestecsLlargs(usuari.getNumPrestecsLlargs() - 1);
     }
 }
