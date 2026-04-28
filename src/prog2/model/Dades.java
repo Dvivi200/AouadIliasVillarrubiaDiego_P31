@@ -55,11 +55,18 @@ public class Dades implements InDades, Serializable {
         if(exemplarPos >= llistaExemplars.getSize())
             throw new BiblioException("Aquest valor no esta vinculat a cap exemplar");
         Exemplar ex = llistaExemplars.getAt(exemplarPos);
+        if(usuariPos >= llistaUsuaris.getSize())
+            throw new BiblioException("Aquest valor no esta vinculat a cap usuari");
         Usuari us = llistaUsuaris.getAt(usuariPos);
+        for(Prestec p : llistaPrestecs.getArrayList()){
+            if(p.getUsuari().equals(us) && p.prestecEndarrerit())
+                throw new BiblioException("Aquest usuari té prestecs endarrerits, " +
+                        "per tant no podra fer més prestecs fins que retorni els endarrerits");
+        }
         if(esLlarg) {
             if(!ex.getAdmetPrestecLlarg())
                 throw new BiblioException("Aquest exemplar no admet prestec a llarg termini");
-            else if(us.getNumPrestecsLlargs() >= us.getMaxPrestecsLlargs())
+            if(us.getNumPrestecsLlargs() >= us.getMaxPrestecsLlargs())
                 throw new BiblioException("Aquest usuari ja no pot tenir mes prestecs a llarg termini");
             prestec = new PrestecLlarg(ex, us);
             us.setNumPrestecsLlargs(us.getNumPrestecsLlargs() + 1);
@@ -77,6 +84,7 @@ public class Dades implements InDades, Serializable {
     @Override
     public void retornarPrestec(int position) throws BiblioException {
         Prestec pr = llistaPrestecs.getAt(position);
+        if(pr.getRetornat()) throw new BiblioException("Aquest exemplar ja s'ha retornat");
         pr.retorna();
         llistaPrestecs.esborrar(pr);
     }
@@ -88,6 +96,10 @@ public class Dades implements InDades, Serializable {
 
     @Override
     public ArrayList<Prestec> recuperaPrestecsNoRetornats() {
-        return null;
+        LlistaPrestecs prestecs = new LlistaPrestecs();
+        for(Prestec p : llistaPrestecs.getArrayList()){
+            if(!p.getRetornat()) prestecs.afegir(p);
+        }
+        return prestecs.getArrayList();
     }
 }

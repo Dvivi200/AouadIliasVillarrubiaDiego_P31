@@ -25,8 +25,7 @@ public class PrestecLlarg extends Prestec implements Serializable {
     }
 
     @Override
-    public void retorna() throws BiblioException {
-        if(getRetornat()) throw new BiblioException("Aquest exemplar ja ha sigut retornat");
+    public void retorna() {
         setRetornat(true);
         exemplar.setDisponible(true);
         usuari.setNumPrestecsLlargs(usuari.getNumPrestecsLlargs() - 1);

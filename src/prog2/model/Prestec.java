@@ -84,7 +84,7 @@ public abstract class Prestec implements InPrestec, Serializable {
     }
 
     @Override
-    public abstract void retorna() throws BiblioException;
+    public abstract void retorna();
 
     @Override
     public abstract long duradaPrestec();
