@@ -1,12 +1,10 @@
 package prog2.adaptador;
 
-import prog2.model.Dades;
-import prog2.model.Exemplar;
-import prog2.model.Prestec;
-import prog2.model.Usuari;
+import prog2.model.*;
 import prog2.vista.BiblioException;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Adaptador implements Serializable {
 
@@ -18,24 +16,24 @@ public class Adaptador implements Serializable {
         dades.afegirExemplar(id, titol, autor, admetPrestecLlarg);
     }
 
-    public String visualitzarExemplars() {
-        StringBuilder llista = new StringBuilder();
+    public ArrayList<String> recuperaExemplars() {
+        ArrayList<String> llista = new ArrayList<>();
         for(Exemplar ex : dades.recuperaExemplars()){
-            llista.append(ex.toString()).append("\n");
+            llista.add(ex.toString());
         }
-        return llista.toString();
+        return llista;
     }
 
     public void afegirUsuari(String email, String nom, String adreca, boolean esEstudiant) throws BiblioException {
         dades.afegirUsuari(email, nom, adreca, esEstudiant);
     }
 
-    public String visualitzarUsuaris() {
-        StringBuilder llista = new StringBuilder();
+    public ArrayList<String> recuperaUsuaris() {
+        ArrayList<String> llista = new ArrayList<>();
         for(Usuari us : dades.recuperaUsuaris()){
-            llista.append(us.toString()).append("\n");
+            llista.add(us.toString());
         }
-        return llista.toString();
+        return llista;
     }
 
     public void afegirPrestec(int exemplarPos, int usuariPos, boolean esLlarg) throws BiblioException {
@@ -44,21 +42,22 @@ public class Adaptador implements Serializable {
 
     public void retornarPrestec(int position) throws BiblioException { dades.retornarPrestec(position); }
 
-    public String visualitzarPrestecs() {
-        StringBuilder llista = new StringBuilder();
+    public ArrayList<String> recuperaPrestecs() {
+        ArrayList<String> llista = new ArrayList<>();
         for(Prestec pr : dades.recuperaPrestecs()){
-            llista.append(pr.toString()).append("\n");
+            llista.add(pr.toString());
         }
-        return llista.toString();
+        return llista;
     }
 
-    public String visualitzarPrestecsNoRetornats() {
-        StringBuilder llista = new StringBuilder();
+    public ArrayList<String> recuperaPrestecsNoRetornats() {
+        ArrayList<String> llista = new ArrayList<>();
         for(Prestec pr : dades.recuperaPrestecsNoRetornats()){
-            llista.append(pr.toString()).append("\n");
+            llista.add(pr.toString());
         }
-        return llista.toString();
+        return llista;
     }
+
 
     public void guardaDades(String camiDesti) throws BiblioException {
         File fitxer = new File(camiDesti);
