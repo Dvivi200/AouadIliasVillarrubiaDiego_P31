@@ -23,7 +23,7 @@ public class Dades implements InDades, Serializable {
             if(ex.getId().equals(id))
                 throw new BiblioException("Aquest exemplar ya existeix");
         }
-        Exemplar exemplar = new Exemplar(id, autor, titol, admetPrestecLlarg);
+        Exemplar exemplar = new Exemplar(id, titol, autor, admetPrestecLlarg);
         llistaExemplars.afegir(exemplar);
     }
 

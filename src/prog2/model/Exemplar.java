@@ -12,7 +12,7 @@ public class Exemplar implements InExemplar, Serializable {
     private boolean admetPrestecLlarg;
     private boolean disponible;
 
-    public Exemplar(String id, String autor, String titol, boolean admetPrestecLlarg) {
+    public Exemplar(String id, String titol, String autor, boolean admetPrestecLlarg) {
         this.id = id;
         this.autor = autor;
         this.titol = titol;

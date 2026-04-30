@@ -17,7 +17,7 @@ public abstract class Prestec implements InPrestec, Serializable {
         this.exemplar = exemplar;
         this.usuari = usuari;
         this.dataCreacio = dataCreacio;
-        this.dataLimitRetorn = new Date(dataCreacio.getTime() + duradaPrestec());
+        this.dataLimitRetorn = new Date(this.dataCreacio.getTime() + duradaPrestec());
         this.retornat = false;
     }
 

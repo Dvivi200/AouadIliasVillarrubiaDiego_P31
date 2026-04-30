@@ -43,4 +43,8 @@ public class Llista<T> implements InLlista<T>, Serializable {
     public ArrayList<T> getArrayList() {
        return llista;
     }
+
+    public boolean contains(String valor) {
+       return llista.contains(valor);
+    }
 }
