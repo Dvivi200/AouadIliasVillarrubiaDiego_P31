@@ -55,6 +55,8 @@ public class Dades implements InDades, Serializable {
         if(exemplarPos >= llistaExemplars.getSize())
             throw new BiblioException("Aquest valor no esta vinculat a cap exemplar");
         Exemplar ex = llistaExemplars.getAt(exemplarPos);
+        if(!ex.isDisponible())
+            throw new BiblioException("Aquest exemplar no està disponible");
         if(usuariPos >= llistaUsuaris.getSize())
             throw new BiblioException("Aquest valor no esta vinculat a cap usuari");
         Usuari us = llistaUsuaris.getAt(usuariPos);
@@ -86,7 +88,6 @@ public class Dades implements InDades, Serializable {
         Prestec pr = llistaPrestecs.getAt(position);
         if(pr.getRetornat()) throw new BiblioException("Aquest exemplar ja s'ha retornat");
         pr.retorna();
-        llistaPrestecs.esborrar(pr);
     }
 
     @Override
