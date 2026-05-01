@@ -21,4 +21,11 @@ public class LlistaExemplars extends Llista<Exemplar> implements Serializable {
         }
         llista.add(ex);
     }
+
+    public boolean contains(String id){
+        for(Exemplar exemplar : llista) {
+            if(exemplar.getId().equals(id)) return true;
+        }
+        return false;
+    }
 }

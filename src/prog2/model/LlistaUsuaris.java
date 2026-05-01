@@ -21,4 +21,11 @@ public class LlistaUsuaris extends Llista<Usuari> implements Serializable {
         }
         llista.add(us);
     }
+
+    public boolean contains(String email){
+        for(Usuari usuari : llista) {
+            if(usuari.getEmail().equals(email)) return true;
+        }
+        return false;
+    }
 }
