@@ -18,9 +18,11 @@ public class Dades implements InDades, Serializable {
     }
 
     @Override
+
     public void afegirExemplar(String id, String titol, String autor, boolean admetPrestecLlarg) throws BiblioException {
-        for(Exemplar ex : llistaExemplars.getArrayList()){
-            if(ex.getId().equals(id))
+        // Garantim la unicitat de l'identificador tal com exigeix la lògica de LlistaExemplars.
+        for (Exemplar ex : llistaExemplars.getArrayList()) {
+            if (ex.getId().equals(id))
                 throw new BiblioException("Aquest exemplar ya existeix");
         }
         Exemplar exemplar = new Exemplar(id, titol, autor, admetPrestecLlarg);
@@ -34,12 +36,14 @@ public class Dades implements InDades, Serializable {
 
     @Override
     public void afegirUsuari(String email, String nom, String adreca, boolean esEstudiant) throws BiblioException {
-        for(Usuari us : llistaUsuaris.getArrayList()){
-            if(us.getEmail().equals(email))
+        // L'email s'utilitza com a clau única per evitar duplicats en el cens d'usuaris.
+        for (Usuari us : llistaUsuaris.getArrayList()) {
+            if (us.getEmail().equals(email))
                 throw new BiblioException("Aquest usuari ya existeix");
         }
+        // Apliquem polimorfisme per assignar els límits de préstecs segons el rol (Estudiant/Professor).
         Usuari usuari;
-        if(esEstudiant) usuari = new Estudiant(email, nom, adreca);
+        if (esEstudiant) usuari = new Estudiant(email, nom, adreca);
         else usuari = new Professor(email, nom, adreca);
         llistaUsuaris.afegir(usuari);
     }
@@ -52,33 +56,48 @@ public class Dades implements InDades, Serializable {
     @Override
     public void afegirPrestec(int exemplarPos, int usuariPos, boolean esLlarg) throws BiblioException {
         Prestec prestec;
-        if(exemplarPos >= llistaExemplars.getSize())
+        // Validació de seguretat d'índexs abans d'accedir a les llistes del model.
+        if (exemplarPos >= llistaExemplars.getSize())
             throw new BiblioException("Aquest valor no esta vinculat a cap exemplar");
+
         Exemplar ex = llistaExemplars.getAt(exemplarPos);
-        if(!ex.isDisponible())
+        // Un exemplar només es pot prestar si el seu estat actual és disponible.
+        if (!ex.isDisponible())
             throw new BiblioException("Aquest exemplar no està disponible");
-        if(usuariPos >= llistaUsuaris.getSize())
+
+        if (usuariPos >= llistaUsuaris.getSize())
             throw new BiblioException("Aquest valor no esta vinculat a cap usuari");
+
         Usuari us = llistaUsuaris.getAt(usuariPos);
-        for(Prestec p : llistaPrestecs.getArrayList()){
-            if(p.getUsuari().equals(us) && p.prestecEndarrerit())
+
+        // Verificació de la restricció de bloqueig per retards en devolucions anteriors.
+        for (Prestec p : llistaPrestecs.getArrayList()) {
+            if (p.getUsuari().equals(us) && p.prestecEndarrerit())
                 throw new BiblioException("Aquest usuari té prestecs endarrerits, " +
                         "per tant no podra fer més prestecs fins que retorni els endarrerits");
         }
-        if(esLlarg) {
-            if(!ex.getAdmetPrestecLlarg())
+
+        if (esLlarg) {
+            // Validació de si l'exemplar físic permet, per configuració, el préstec de llarga durada.
+            if (!ex.getAdmetPrestecLlarg())
                 throw new BiblioException("Aquest exemplar no admet prestec a llarg termini");
-            if(us.getNumPrestecsLlargs() >= us.getMaxPrestecsLlargs())
-                throw new BiblioException("Aquest usuari ja no pot tenir mes prestecs a llarg termini");
+
+            // Control de topall de préstecs llargs (1 per Estudiants, 2 per Professors).
+            if (us.getNumPrestecsLlargs() >= us.getMaxPrestecsLlargs())
+                throw new BiblioException("Aquest usuari ja no pot tener mes prestecs a llarg termini");
+
             prestec = new PrestecLlarg(ex, us);
             us.setNumPrestecsLlargs(us.getNumPrestecsLlargs() + 1);
-        }
-        else {
-            if(us.getNumPrestecsNormals() >= us.getMaxPrestecsNormals())
+        } else {
+            // Control de topall de préstecs normals (màxim 2 per a ambdós tipus d'usuari).
+            if (us.getNumPrestecsNormals() >= us.getMaxPrestecsNormals())
                 throw new BiblioException("Aquest usuari ja no pot tenir mes prestecs normals");
+
             prestec = new PrestecNormal(ex, us);
             us.setNumPrestecsNormals(us.getNumPrestecsNormals() + 1);
         }
+
+        // En formalitzar el préstec, l'exemplar queda automàticament bloquejat per a altres usuaris.
         ex.setDisponible(false);
         llistaPrestecs.afegir(prestec);
     }
@@ -86,7 +105,8 @@ public class Dades implements InDades, Serializable {
     @Override
     public void retornarPrestec(int position) throws BiblioException {
         Prestec pr = llistaPrestecs.getAt(position);
-        if(pr.getRetornat()) throw new BiblioException("Aquest exemplar ja s'ha retornat");
+        // Evitem la redundància en el retorn segons les especificacions de control d'errors.
+        if (pr.getRetornat()) throw new BiblioException("Aquest exemplar ja s'ha retornat");
         pr.retorna();
     }
 
@@ -97,9 +117,10 @@ public class Dades implements InDades, Serializable {
 
     @Override
     public ArrayList<Prestec> recuperaPrestecsNoRetornats() {
+        // Filtrar manualment per gestionar la visualització de préstecs actius al sistema.
         LlistaPrestecs prestecs = new LlistaPrestecs();
-        for(Prestec p : llistaPrestecs.getArrayList()){
-            if(!p.getRetornat()) prestecs.afegir(p);
+        for (Prestec p : llistaPrestecs.getArrayList()) {
+            if (!p.getRetornat()) prestecs.afegir(p);
         }
         return prestecs.getArrayList();
     }
