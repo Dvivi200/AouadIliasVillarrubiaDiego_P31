@@ -141,11 +141,38 @@ public class BiblioUB {
                     // Sortir      1
                     System.err.println("Sortint de l'aplicació...");
                     break;
+                default:
+                    System.err.println("Opcio no valida, torna-la a posar");
+                    break;
             }
         } while(opcio != OpcionsMenuPrincipal.MENU_PRINCIPAL_EXIT);
     }
     
     private void menuGestioExemplars(Scanner sc) {
+        Menu<OpcionsMenuGestioExemplars> menu = new Menu<>("Gestió d'exemplars", OpcionsMenuGestioExemplars.values());
+        menu.setDescripcions(descMenuGestioExemplars);
+
+        OpcionsMenuGestioExemplars opcio;
+        do {
+            menu.mostrarMenu();
+            opcio = menu.getOpcio(sc);
+            switch(opcio) {
+                case MENU_GESTIO_EXEMPLARS_ADD:
+                    afegirExemplar(sc);
+                    break;
+                case MENU_GESTIO_EXEMPLARS_VIEW:
+                    for(String ex : adaptador.recuperaExemplars()){
+                        System.out.println(ex);
+                    }
+                    break;
+                case MENU_GESTIO_EXEMPLARS_EXIT:
+                    System.err.println("Sortint d'exemplars...");
+                    break;
+                default:
+                    System.err.println("Opcio no valida, torna-la a posar");
+                    break;
+            }
+        } while(opcio != OpcionsMenuGestioExemplars.MENU_GESTIO_EXEMPLARS_EXIT);
     }
     
     /**
@@ -154,9 +181,43 @@ public class BiblioUB {
      */
     
     private void afegirExemplar(Scanner sc){
+        System.out.println("Introdueix l'id del exemplar:");
+        String id = sc.nextLine();
+        System.out.println("Introdueix el títol del exemplar:");
+        String titol = sc.nextLine();
+        System.out.println("Introdueix l'autor del exemplar:");
+        String autor = sc.nextLine();
+        System.out.println("L'exemplar admet prèstecs llargs?(true/false)");
+        boolean admetPrestecLlarg = sc.nextBoolean();
+        adaptador.afegirExemplar(id, titol, autor, admetPrestecLlarg);
     }
 
     private void menuGestioUsuaris(Scanner sc) {
+        Menu<OpcionsMenuGestioClients> menu = new Menu<>("Gestió d'usuaris", OpcionsMenuGestioClients.values());
+        menu.setDescripcions(descMenuGestioUsuaris);
+
+        OpcionsMenuGestioClients opcio;
+        do {
+            menu.mostrarMenu();
+            opcio = menu.getOpcio(sc);
+
+            switch(opcio) {
+                case MENU_GESTIO_USUARIS_ADD:
+                    afegirUsuari(sc);
+                    break;
+                case MENU_GESTIO_USUARIS_VIEW:
+                    for(String us : adaptador.recuperaUsuaris()){
+                        System.out.println(us);
+                    }
+                    break;
+                case MENU_GESTIO_USUARIS_EXIT:
+                    System.err.println("Sortint d'usuaris...");
+                    break;
+                default:
+                    System.err.println("Opcio no valida, torna-la a posar");
+                    break;
+            }
+        } while (opcio != OpcionsMenuGestioClients.MENU_GESTIO_USUARIS_EXIT);
     }
     
     /**
@@ -165,9 +226,50 @@ public class BiblioUB {
      */
     
     private void afegirUsuari(Scanner sc){
+        System.out.println("Introdueix l'id del usuari:");
+        String id = sc.nextLine();
+        System.out.println("Introdueix el nom del usuari:");
+        String nom = sc.nextLine();
+        System.out.println("Introdueix l'adreça del usuari:");
+        String adreca = sc.nextLine();
+        System.out.println("Es l'usuari un estudiant?(true/false)");
+        boolean esEstudiant = sc.nextBoolean();
+        adaptador.afegirUsuari(id, nom, adreca, esEstudiant);
     }
 
     private void menuGestioPrestecs(Scanner sc) {
+        Menu<OpcionsMenuGestioPrestecs> menu = new Menu<>("Gestió de prestecs", OpcionsMenuGestioPrestecs.values());
+        menu.setDescripcions(descMenuGestioPrestecs);
+        OpcionsMenuGestioPrestecs opcio;
+
+        do {
+            menu.mostrarMenu();
+            opcio = menu.getOpcio(sc);
+            switch(opcio) {
+                case MENU_GESTIO_PRESTECS_ADD:
+                    afegirPrestec(sc);
+                    break;
+                case MENU_GESTIO_PRESTECS_REMOVE:
+                    cancelarPrestec(sc);
+                    break;
+                case MENU_GESTIO_PRESTECS_VIEW:
+                    for(String pr : adaptador.recuperaPrestecs()){
+                        System.out.println(pr);
+                    }
+                    break;
+                case MENU_GESTIO_PRESTECS_VIEW_URG:
+                    for(String pr : adaptador.recuperaPrestecsNoRetornats()){
+                        System.out.println(pr);
+                    }
+                    break;
+                case MENU_GESTIO_PRESTECS_EXIT:
+                    System.err.println("Sortint de prestecs...");
+                    break;
+                default:
+                    System.err.println("Opcio no valida, torna-la a posar");
+                    break;
+            }
+        } while (opcio != OpcionsMenuGestioPrestecs.MENU_GESTIO_PRESTECS_EXIT);
     }
     
     /**
@@ -176,9 +278,23 @@ public class BiblioUB {
      */
     
     private void afegirPrestec(Scanner sc){
+        System.out.println("Introdueix la posicio del exemplar:");
+        int exemplarPos = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Introdueix la posicio del prestec:");
+        int prestecPos = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Vola agafar-ho a llarg termini?(true/false)");
+        boolean esLlarg = sc.nextBoolean();
+        sc.nextLine();
+        adaptador.afegirPrestec(exemplarPos, prestecPos, esLlarg);
     }
 
     private void cancelarPrestec(Scanner sc){
+        System.out.println("Introdueix la posicio del prestec:");
+        int prestecPos = sc.nextInt();
+        sc.nextLine();
+        adaptador.retornarPrestec(prestecPos);
     }
 
      /**
@@ -207,16 +323,23 @@ public class BiblioUB {
     private String getFilePath(Scanner sc, boolean mustExist) {
         String filePath = null;
 
-        // Mostrar el missatge demanant la entrada
-        System.out.println("Entra ruta completa fitxer (o ENTER per ometre):");
-
+        if (mustExist) {
+            // Mostrar el missatge demanant la entrada
+            System.out.println("Entra ruta completa fitxer(o ENTER per ometre):");
             // Llegim la ruta del fitxer
             filePath = sc.nextLine();
-
             // Si la ruta està buida retornem un null
             if(filePath.isEmpty()) {
                 return null;
             }
+        }
+        else {
+            System.out.println("Entra el nom del fitxer a crear:");
+            filePath = sc.nextLine();
+            if(filePath.isEmpty()) {
+                return null;
+            }
+        }
 
         return filePath;
     }

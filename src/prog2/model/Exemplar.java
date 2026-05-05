@@ -1,9 +1,15 @@
 package prog2.model;
 
-import prog2.vista.IniciadorBiblioUB;
-
 import java.io.Serializable;
 
+/**
+ * @author Diego Villarrubia
+ * La classe exemplar conté tota la informació
+ * important per definir un exemplar d'una biblioteca.
+ * Entre aquestes característiques estan el id, l'autor
+ * i el titol del exemplar, si admet prestec a llarg termini
+ * i si esta disponible.
+ */
 public class Exemplar implements InExemplar, Serializable {
 
     private String id;
@@ -12,6 +18,10 @@ public class Exemplar implements InExemplar, Serializable {
     private boolean admetPrestecLlarg;
     private boolean disponible;
 
+    /**
+     * Constructor d'exemplar.
+     * Inicialitza disponible sempre en true.
+     */
     public Exemplar(String id, String titol, String autor, boolean admetPrestecLlarg) {
         this.id = id;
         this.autor = autor;
@@ -20,6 +30,9 @@ public class Exemplar implements InExemplar, Serializable {
         this.disponible = true;
     }
 
+    /**
+     * Getters i setters de la classe
+     */
     @Override
     public void setId(String id) {
         this.id = id;
@@ -70,6 +83,11 @@ public class Exemplar implements InExemplar, Serializable {
         return disponible;
     }
 
+    /**
+     * Mètode toString que retorna la informació
+     * de l'objecte sense modificar-ho
+     * @return String
+     */
     @Override
     public String toString() {
         return "Id=" + id + ", Titol=" + titol +

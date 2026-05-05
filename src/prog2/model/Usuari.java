@@ -2,6 +2,16 @@ package prog2.model;
 
 import java.io.Serializable;
 
+/**
+ * @author Diego Villarrubia
+ * La classe usuari conté tota la informació
+ * important per definir un usuari de la
+ * nostra biblioteca. Aquesta classe guarda
+ * l'email, el nom i l'adreça de l'usuari,
+ * el nombre de prestecs normals i llargs
+ * que poden fer i el tipus d'usuari que depen d'ell
+ * el màxim de prestecs que es poden fer
+ */
 public abstract class Usuari implements InUsuari, Serializable {
 
     private String email;
