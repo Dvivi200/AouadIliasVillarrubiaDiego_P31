@@ -1,7 +1,5 @@
 package prog2.model;
 
-import prog2.vista.BiblioException;
-
 import java.io.Serializable;
 import java.util.Date;
 

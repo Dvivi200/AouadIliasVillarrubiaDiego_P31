@@ -108,17 +108,12 @@ public class Dades implements InDades, Serializable {
 
     @Override
     public ArrayList<Prestec> recuperaPrestecsNoRetornats() {
-        // Filtrar manualment per gestionar la visualització de préstecs actius al sistema.
-        LlistaPrestecs prestecs = new LlistaPrestecs();
+        ArrayList<Prestec> noRetornats = new ArrayList<>();
         for (Prestec p : llistaPrestecs.getArrayList()) {
             if (!p.getRetornat()) {
-                try {
-                    prestecs.afegir(p);
-                } catch (BiblioException e) {
-                    throw new RuntimeException(e);
-                }
+                noRetornats.add(p);
             }
         }
-        return prestecs.getArrayList();
+        return noRetornats;
     }
 }
