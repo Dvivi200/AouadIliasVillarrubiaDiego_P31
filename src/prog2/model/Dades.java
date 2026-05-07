@@ -5,31 +5,65 @@ import prog2.vista.BiblioException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * @author Diego Villarrubia
+ * La classe Dades es l'encarregada de juntar i gestionar
+ * les nostres llistes formant així la base de dades de la
+ * nostra biblioteca
+ */
 public class Dades implements InDades, Serializable {
 
     private LlistaExemplars llistaExemplars;
     private LlistaUsuaris llistaUsuaris;
     private LlistaPrestecs llistaPrestecs;
 
+    /**
+     * Constructor de dades
+     */
     public Dades() {
         llistaExemplars = new LlistaExemplars();
         llistaUsuaris = new LlistaUsuaris();
         llistaPrestecs = new LlistaPrestecs();
     }
 
+    /**
+     * Mètode per afegir un exemplar a
+     * llistaExemplars amb el mètode
+     * {@link LlistaExemplars#afegir(Exemplar)}
+     * @param id
+     * @param titol
+     * @param autor
+     * @param admetPrestecLlarg
+     * @throws BiblioException
+     */
     @Override
-
     public void afegirExemplar(String id, String titol, String autor, boolean admetPrestecLlarg) throws BiblioException {
         // Garantim la unicitat de l'identificador tal com exigeix la lògica de LlistaExemplars.
         Exemplar exemplar = new Exemplar(id, titol, autor, admetPrestecLlarg);
         llistaExemplars.afegir(exemplar);
     }
 
+    /**
+     * Mètode que retorna llistaExemplars
+     * com a ArrayList amb el mètode
+     * {@link LlistaExemplars#getArrayList()}
+     * @return ArrayList<Exemplar>
+     */
     @Override
     public ArrayList<Exemplar> recuperaExemplars() {
         return llistaExemplars.getArrayList();
     }
 
+    /**
+     * Mètode per afegir un usuari a
+     * llistaUsuaris amb el mètode
+     * {@link LlistaUsuaris#afegir(Usuari)}
+     * @param email
+     * @param nom
+     * @param adreca
+     * @param esEstudiant
+     * @throws BiblioException
+     */
     @Override
     public void afegirUsuari(String email, String nom, String adreca, boolean esEstudiant) throws BiblioException {
         // Apliquem polimorfisme per assignar els límits de préstecs segons el rol (Estudiant/Professor).
@@ -39,11 +73,26 @@ public class Dades implements InDades, Serializable {
         llistaUsuaris.afegir(usuari);
     }
 
+    /**
+     * Mètode que retorna llistaUsuaris
+     * com a ArrayList amb el mètode
+     * {@link LlistaUsuaris#getArrayList()}
+     * @return ArrayList<Usuari>
+     */
     @Override
     public ArrayList<Usuari> recuperaUsuaris() {
         return llistaUsuaris.getArrayList();
     }
 
+    /**
+     * Mètode per afegir un prestec a
+     * llistaPrestecs amb el mètode
+     * {@link LlistaPrestecs#afegir(Prestec)}
+     * @param exemplarPos
+     * @param usuariPos
+     * @param esLlarg
+     * @throws BiblioException
+     */
     @Override
     public void afegirPrestec(int exemplarPos, int usuariPos, boolean esLlarg) throws BiblioException {
         Prestec prestec;
@@ -93,6 +142,14 @@ public class Dades implements InDades, Serializable {
         llistaPrestecs.afegir(prestec);
     }
 
+    /**
+     * Mètode que retorna un prèstec
+     * de llistaPrestecs amb els mètodes
+     * {@link LlistaPrestecs#getAt(int)}
+     * {@link Prestec#retorna()}
+     * @param position
+     * @throws BiblioException
+     */
     @Override
     public void retornarPrestec(int position) throws BiblioException {
         Prestec pr = llistaPrestecs.getAt(position);
@@ -101,11 +158,23 @@ public class Dades implements InDades, Serializable {
         pr.retorna();
     }
 
+    /**
+     * Mètode que retorna llistaPrestecs
+     * com a ArrayList amb el mètode
+     * {@link LlistaPrestecs#getArrayList()}
+     * @return ArrayList<Prestec>
+     */
     @Override
     public ArrayList<Prestec> recuperaPrestecs() {
         return llistaPrestecs.getArrayList();
     }
 
+    /**
+     * Mètode que retorna els prestecs
+     * no retornats com a ArrayList amb el mètode
+     * {@link LlistaUsuaris#getArrayList()}
+     * @return ArrayList<Prestec>
+     */
     @Override
     public ArrayList<Prestec> recuperaPrestecsNoRetornats() {
         ArrayList<Prestec> noRetornats = new ArrayList<>();

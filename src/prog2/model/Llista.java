@@ -21,7 +21,9 @@ import prog2.vista.BiblioException;
 public class Llista<T> implements InLlista<T>, Serializable {
    protected ArrayList<T> llista;
 
-
+    /**
+     * Constructor de llista
+     */
    public Llista() {
        llista = new ArrayList<>();
     }
@@ -36,8 +38,7 @@ public class Llista<T> implements InLlista<T>, Serializable {
     }
 
     /**
-     * Mètode per afegir un element a la
-     * llista segons <T>
+     * Mètode per afegir un element a la llista
      * @param t
      * @throws BiblioException
      */

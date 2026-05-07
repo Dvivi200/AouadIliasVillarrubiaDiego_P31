@@ -307,6 +307,10 @@ public class BiblioUB {
         }
     }
 
+    /**
+     * Retornar un nou prestec
+     * @param sc
+     */
     private void cancelarPrestec(Scanner sc){
         System.out.println("Introdueix la posicio del prestec:");
         int prestecPos = sc.nextInt();
