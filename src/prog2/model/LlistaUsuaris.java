@@ -26,9 +26,9 @@ public class LlistaUsuaris extends Llista<Usuari> implements Serializable {
     }
 
     public boolean contains(String email) {
-        // Mètode de conveniència per verificar l'existència d'un usuari al sistema abans de procedir a operacions de préstec [6, 7].
-        for (Usuari usuari : llista) {
-            if (usuari.getEmail().equals(email)) return true;
+        Iterator<Usuari> it = llista.iterator();
+        while (it.hasNext()) {
+            if (it.next().getEmail().equals(email)) return true;
         }
         return false;
     }

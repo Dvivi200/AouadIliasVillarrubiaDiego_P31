@@ -94,6 +94,6 @@ public abstract class Usuari implements InUsuari, Serializable {
     public String toString() {
         return "Tipus=" +  tipusUsuari + ", Email=" + email + ", Nom=" + nom
                 + ", Adreca=" + adreca + ", Num. prestecs normals=" + numPrestecsNormals
-                + ", Num. prestecs larges=" + numPrestecsLlargs;
+                + ", Num. prestecs llargs=" + numPrestecsLlargs;
     }
 }

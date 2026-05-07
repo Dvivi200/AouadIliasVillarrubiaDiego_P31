@@ -26,9 +26,9 @@ public class LlistaExemplars extends Llista<Exemplar> implements Serializable {
     }
 
     public boolean contains(String id) {
-        // Mètode de suport per a la validació ràpida de l'existència d'un exemplar abans d'executar operacions de gestió o consulta.
-        for (Exemplar exemplar : llista) {
-            if (exemplar.getId().equals(id)) return true;
+        Iterator<Exemplar> it = llista.iterator();
+        while (it.hasNext()) {
+            if (it.next().getId().equals(id)) return true;
         }
         return false;
     }

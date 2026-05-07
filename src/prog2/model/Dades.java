@@ -21,10 +21,6 @@ public class Dades implements InDades, Serializable {
 
     public void afegirExemplar(String id, String titol, String autor, boolean admetPrestecLlarg) throws BiblioException {
         // Garantim la unicitat de l'identificador tal com exigeix la lògica de LlistaExemplars.
-        for (Exemplar ex : llistaExemplars.getArrayList()) {
-            if (ex.getId().equals(id))
-                throw new BiblioException("Aquest exemplar ya existeix");
-        }
         Exemplar exemplar = new Exemplar(id, titol, autor, admetPrestecLlarg);
         llistaExemplars.afegir(exemplar);
     }
@@ -36,11 +32,6 @@ public class Dades implements InDades, Serializable {
 
     @Override
     public void afegirUsuari(String email, String nom, String adreca, boolean esEstudiant) throws BiblioException {
-        // L'email s'utilitza com a clau única per evitar duplicats en el cens d'usuaris.
-        for (Usuari us : llistaUsuaris.getArrayList()) {
-            if (us.getEmail().equals(email))
-                throw new BiblioException("Aquest usuari ya existeix");
-        }
         // Apliquem polimorfisme per assignar els límits de préstecs segons el rol (Estudiant/Professor).
         Usuari usuari;
         if (esEstudiant) usuari = new Estudiant(email, nom, adreca);
@@ -120,7 +111,13 @@ public class Dades implements InDades, Serializable {
         // Filtrar manualment per gestionar la visualització de préstecs actius al sistema.
         LlistaPrestecs prestecs = new LlistaPrestecs();
         for (Prestec p : llistaPrestecs.getArrayList()) {
-            if (!p.getRetornat()) prestecs.afegir(p);
+            if (!p.getRetornat()) {
+                try {
+                    prestecs.afegir(p);
+                } catch (BiblioException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
         return prestecs.getArrayList();
     }

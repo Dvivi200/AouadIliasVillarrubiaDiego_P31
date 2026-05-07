@@ -189,7 +189,13 @@ public class BiblioUB {
         String autor = sc.nextLine();
         System.out.println("L'exemplar admet prèstecs llargs?(true/false)");
         boolean admetPrestecLlarg = sc.nextBoolean();
-        adaptador.afegirExemplar(id, titol, autor, admetPrestecLlarg);
+        sc.nextLine();
+        try {
+            adaptador.afegirExemplar(id, titol, autor, admetPrestecLlarg);
+            System.out.println("Exemplar afegit correctament.");
+        } catch (BiblioException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private void menuGestioUsuaris(Scanner sc) {
@@ -234,7 +240,13 @@ public class BiblioUB {
         String adreca = sc.nextLine();
         System.out.println("Es l'usuari un estudiant?(true/false)");
         boolean esEstudiant = sc.nextBoolean();
-        adaptador.afegirUsuari(id, nom, adreca, esEstudiant);
+        sc.nextLine();
+        try {
+            adaptador.afegirUsuari(id, nom, adreca, esEstudiant);
+            System.out.println("Usuari afegit correctament.");
+        } catch (BiblioException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private void menuGestioPrestecs(Scanner sc) {
@@ -287,14 +299,24 @@ public class BiblioUB {
         System.out.println("Vola agafar-ho a llarg termini?(true/false)");
         boolean esLlarg = sc.nextBoolean();
         sc.nextLine();
-        adaptador.afegirPrestec(exemplarPos, prestecPos, esLlarg);
+        try {
+            adaptador.afegirPrestec(exemplarPos, prestecPos, esLlarg);
+            System.out.println("Prestec afegit correctament.");
+        } catch (BiblioException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private void cancelarPrestec(Scanner sc){
         System.out.println("Introdueix la posicio del prestec:");
         int prestecPos = sc.nextInt();
         sc.nextLine();
-        adaptador.retornarPrestec(prestecPos);
+        try {
+            adaptador.retornarPrestec(prestecPos);
+            System.out.println("Prestec retornat correctament.");
+        } catch (BiblioException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
      /**

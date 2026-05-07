@@ -68,15 +68,12 @@ public class Adaptador implements Serializable {
             throw new BiblioException("Error en guardar les dades al fitxer: " + e.getMessage());
         }
     }
-    public Adaptador carregaDades(String camiOrigen) throws BiblioException {
+    public void carregaDades(String camiOrigen) throws BiblioException {
         File fitxer = new File(camiOrigen);
-        try(FileInputStream fin = new FileInputStream(fitxer);
-            ObjectInputStream ois = new ObjectInputStream(fin)) {
+        try (FileInputStream fin = new FileInputStream(fitxer);
+             ObjectInputStream ois = new ObjectInputStream(fin)) {
             Adaptador ad = (Adaptador) ois.readObject();
-            fin.close();
-            ois.close();
-            return ad;
-
+            this.dades = ad.dades;
         } catch (IOException | ClassNotFoundException e) {
             throw new BiblioException("Error en carregar les dades del fitxer: " + e.getMessage());
         }
