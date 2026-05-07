@@ -21,6 +21,10 @@ public abstract class Usuari implements InUsuari, Serializable {
     private int numPrestecsLlargs;
     protected String tipusUsuari;
 
+    /**
+     * Costructor d'usuari.
+     * Inicialitza els prestecs normals i llargs a 0
+     */
     public Usuari(String email, String nom, String adreca) {
         this.email = email;
         this.nom = nom;
@@ -29,6 +33,9 @@ public abstract class Usuari implements InUsuari, Serializable {
         this.numPrestecsLlargs = 0;
     }
 
+    /**
+     * Getters i setters de la classe
+     */
     @Override
     public void setEmail(String email) {
         this.email = email;
@@ -84,12 +91,23 @@ public abstract class Usuari implements InUsuari, Serializable {
         return numPrestecsLlargs;
     }
 
+    /**
+     * Mètodes abstractes per definir el maxim de
+     * prestecs normals i llargs que un usuari
+     * pot fer depenent del tipus
+     * @return int
+     */
     @Override
     public abstract int getMaxPrestecsNormals();
 
     @Override
     public abstract int getMaxPrestecsLlargs();
 
+    /**
+     * Mètode toString que retorna la informació
+     * de l'objecte sense modificar-ho
+     * @return String
+     */
     @Override
     public String toString() {
         return "Tipus=" +  tipusUsuari + ", Email=" + email + ", Nom=" + nom

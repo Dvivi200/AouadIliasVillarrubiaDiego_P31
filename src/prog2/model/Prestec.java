@@ -5,6 +5,15 @@ import prog2.vista.BiblioException;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author Diego Villarrubia
+ * La classe Prestec conté tota la informació
+ * important per definir l'operació de prestec en
+ * la nostra biblioteca. Aquesta classe guarda
+ * l'exemplar a agafar, l'usuari que realitza el prestec,
+ * la data de creació i de límit per retornar el prestec
+ * i si aquest s'ha retornat o no.
+ */
 public abstract class Prestec implements InPrestec, Serializable {
     protected Exemplar exemplar;
     protected Usuari usuari;
@@ -12,7 +21,11 @@ public abstract class Prestec implements InPrestec, Serializable {
     private Date dataLimitRetorn;
     private boolean retornat;
 
-    //Constructor per tests
+    /**
+     * Constructor de prestec pels tests.
+     * Inicialitza una data de creació qualsevol i
+     * retornat sempre en false.
+     */
     public Prestec(Exemplar exemplar, Usuari usuari, Date dataCreacio){
         this.exemplar = exemplar;
         this.usuari = usuari;
@@ -21,7 +34,10 @@ public abstract class Prestec implements InPrestec, Serializable {
         this.retornat = false;
     }
 
-    //Constructor per a la classe Dades
+    /**
+     * Constructor de prestec.
+     * Inicialitza retornat sempre en false.
+     */
     public Prestec(Exemplar exemplar, Usuari usuari){
         this.exemplar = exemplar;
         this.usuari = usuari;
@@ -30,6 +46,9 @@ public abstract class Prestec implements InPrestec, Serializable {
         this.retornat = false;
     }
 
+    /**
+     * Getters i setters de la classe
+     */
     @Override
     public void setExemplar(Exemplar exemplar) {
         this.exemplar = exemplar;
@@ -70,6 +89,12 @@ public abstract class Prestec implements InPrestec, Serializable {
         return dataLimitRetorn;
     }
 
+    /**
+     * Metode abstracte per determinar el
+     * tipus de prestec a realitzar segons la classe
+     * i per tant la durada d'aquest prestec.
+     * @return String
+     */
     @Override
     public abstract String tipusPrestec();
 
@@ -83,12 +108,28 @@ public abstract class Prestec implements InPrestec, Serializable {
         return retornat;
     }
 
+    /**
+     * Mètode abstracte per retornar un prestec
+     * i modificar el numero de prestecs del usuari
+     * segons el tipus de prestec.
+     * @return void
+     */
     @Override
     public abstract void retorna();
 
+    /**
+     * Mètode abstracte per determinar la durada
+     * del prestec en milisegons segons el tipus
+     * @return long
+     */
     @Override
     public abstract long duradaPrestec();
 
+    /**
+     * Mètode per determinar si hi ha un prestec
+     * endarrerit segons la data límit i l'actual
+     * @return boolean
+     */
     @Override
     public boolean prestecEndarrerit() {
         if(getRetornat()) return false;
@@ -96,6 +137,11 @@ public abstract class Prestec implements InPrestec, Serializable {
         return dataActual.after(dataLimitRetorn);
     }
 
+    /**
+     * Mètode toString que retorna la informació
+     * de l'objecte sense modificar-ho
+     * @return String
+     */
     public String toString() {
         return "Tipus=" + tipusPrestec() + ", Exemplar=" + exemplar.getTitol() + ", Usuari="
                 + usuari.getNom() + ", Data de creacio=" + dataCreacio + ", Data límit retorn="
